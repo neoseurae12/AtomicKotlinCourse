@@ -2,5 +2,5 @@
 package booleansExercise4
 
 fun main() {
-  println(foo())
+  println(foo())  // Navigating Backword and Forward => ⌘ [ or ]
 }
