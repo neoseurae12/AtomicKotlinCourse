@@ -1,7 +1,7 @@
 // ExpressionsStatements/AssigningAnIf.kt
 
 fun main() {
-  val result1 = if (11 > 42) 9 else 5 // 'if'는 '문'도, '식'도 될 수 있다.
+  val result1 = if (11 > 42) 9 else 5 // 'if'는 '식'이다. (if 식)
 
   val result2 = if (1 < 2) {
     val a = 11  // 임시적인(temporary) 변수 => 변수가 선언된 영역(scope)을 벗어나면 버려진다.
