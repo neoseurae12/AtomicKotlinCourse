@@ -170,7 +170,7 @@ Cracking the Kotlin...! </br>
 - 예외 객체 / 예외 문제
 : 문제를 처리하기에 충분한 정보가 현재 문맥에 존재하지 않아 오류가 발생한 지점에서 현재 함수 또는 현재 영역의 진행을 중단하고 적절한 조치를 취할 수 있는 현재 문맥의 바깥쪽으로 '던져지는' 객체
     
-  - ⇄ 일반적인 문제: 그 문제를 처리하기에 충분한 정보가 현재 맥락에 존재하는 경우
+  - ↔︎ 일반적인 문제: 그 문제를 처리하기에 충분한 정보가 현재 맥락에 존재하는 경우
 
 - 예외를 잡아내지(catch) 않은 경우 ☞ 프로그램 중단 + 스택 트레이스 출력
   - 스택 트레이스(stack trace): 예외에 대한 상세 정보 (예외가 발생한 파일과 위치 등)
@@ -193,6 +193,94 @@ Cracking the Kotlin...! </br>
   5. 좀 더 자세한 오류 메세지가 포함된 구체적인 예외를 던진다.
      - throw 키워드
      - 목표: 향후 애플리케이션을 더 쉽게 지원할 수 있도록 가장 유용한 메세지를 제공하는 것
+
+### 24. 리스트
+
+- 컨테이너(container) (=컬렉션(collection))
+: 다른 객체를 담는 개체
+
+- 리스트
+  - ⊂ 표준 코틀린 패키지
+    - import 할 필요 없음
+  - listOf() 함수
+    - ⊂ 표준 라이브러리 함수
+
+- 인덱스
+  - in 키워드 ☞ 1 차이로 인한(off-by-one) 오류를 없앨 수 있다.
+    - in 키워드: 컨테이너 전체에 대한 이터레이션
+    - 1 차이로 인한(off-by-one) 오류: 인덱스가 '0'부터 시작하다는 사실을 깜빡했을 경우 발생
+      - ArrayIndexOutOfBoundException: 수 발생
+  - for(i in ints)에서의 i => val i라고 정의하거나 i의 타입을 지정할 필요 없음
+    - 이유: 코틀린이 문맥을 보고 i가 for 루프에 쓰일 식별자라는 사실을 알 수 있기 때문이다.
+
+- List 연산 (일부)
+  - sorted(), reversed(): '새로운' List를 생성하여 돌려준다. 따라서 List의 원본은 그대로 잘 남아있다.
+  - sort(): List의 원본을 직접(in place) 바꾼다.
+  - first(): 맨 첫 원소
+  - takeLast(n): 맨 뒤에서 n개의 원소
+
+#### a. 파라미터화한 타입
+
+- 타입 파라미터(type parameter)
+: 이 컨테이너는 '파라미터' 타입의 객체를 담는다.
+
+  - 홑화살괄호(<>)
+  - '함수의 반환 타입'일 경우, 타입을 명시하려면, 반드시 타입 파라미터까지 모두 명시해야 한다.
+    - 즉, 타입 추론을 하든, 타입 명시를 하든, 모두 가능하다.
+    - 다만, 타입 명시일 경우에는, 단순히 List라고만 쓰면 안 된다. List<E>로 명시해야 한다.
+  - ↔ 타입 추론
+    ```kotlin
+    // 타입 추론
+    val numbers = listOf(1, 2, 3)
+  
+    // 타입 명시
+    val numbers2: List<Int> = listOf(1, 2, 3)
+    ```
+
+#### b. listOf() & mutableListOf()
+
+- MutableList과 List 간의 변환 가능 여부
+  1) MutableList ⇒ List
+  2) List ⇏ MutableList
+- 에일리어싱(aliasing)
+  - 내부 구현을 MutableList로 하면서 이 MutableList에 대한 참조를 유지했다가 나중에 이 가변 List에 대한 참조를 통해 원소를 변경하면, 읽기 전용 리스트에 대한 참조임에도 불구하고 그 리스트 내부가 바뀐 모습을 볼 수 있다.
+
+1) listOf(): '**읽기 전용**' 리스트
+  - 상태 변화의 함수가 들어 있지 않다.
+2) mutableListOf(): '**가변**' 리스트
+  - 상태 변화의 함수가 들어 있다.
+    - add(), addAll()
+    - += 연산
+
+#### c. += 연산자
+
+- += 연산에 대한, val/var & 가변/불변 List의 다양한 조합
+  1) **val/var** & **가변 List**
+     - 다음과 동일하다
+       ```kotlin
+       val list1 = mutableListOf<Char>()
+       // 또는
+       // var list1 = mutableListOf<Char>()
+       
+       list1.plusAssign('A')
+       ```
+  2) **val** & **불변 List**
+     - 다음과 동일하다
+       ```kotlin
+       val list2 = List<Char>()
+       
+       list2 = list2 + 'B'
+       ```
+     - 따라서, += 연산이 불가능하다.
+  3) **var** & **불변 List**
+     - 다음과 동일하다
+       ```kotlin
+       var list3 = List<Char>()
+       
+       val newList = list3 + 'C'
+       list3 = newList
+       ```
+
 
 ## 3. Usability
 ## 4. Functional Programming
