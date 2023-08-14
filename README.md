@@ -254,6 +254,9 @@ Cracking the Kotlin...! </br>
 
 #### c. += 연산자
 
+- += 연산자의 동작 ☞ 다른 컬렉션에서도 마찬가지다.
+- 혼동을 방지하려면, var보다는 **val**을 사용하라.
+
 - += 연산에 대한, val/var & 가변/불변 List의 다양한 조합
   1) **val/var** & **가변 List**
      - 다음과 동일하다
@@ -264,6 +267,8 @@ Cracking the Kotlin...! </br>
        
        list1.plusAssign('A')
        ```
+     - list1에 다른 리스트가 재대입되지 않고 제자리에서 변경하기 때문에, val이든 var이든 상관 없음
+     - var보다는 **val**로 바꾸는 편이 더 나음
   2) **val** & **불변 List**
      - 다음과 동일하다
        ```kotlin
@@ -271,7 +276,8 @@ Cracking the Kotlin...! </br>
        
        list2 = list2 + 'B'
        ```
-     - 따라서, += 연산이 불가능하다.
+     - **val** ☞ list2에 새로 만든 리스트를 재대입할 수 없음
+     - 따라서, += 연산이 불가능하다(컴파일될 수 없다).
   3) **var** & **불변 List**
      - 다음과 동일하다
        ```kotlin
@@ -280,6 +286,9 @@ Cracking the Kotlin...! </br>
        val newList = list3 + 'C'
        list3 = newList
        ```
+     - list3가 가리키는 listOf('C')는 변경하지 않고, newList를 생성함
+     - **var** ☞ list3에 새로 만든 리스트 newList를 재대입할 수 있음
+     - += 연산자로 인해, list3가 가변 리스트인 것 같은 착각을 불러일으킨다.
 
 
 ## 3. Usability
