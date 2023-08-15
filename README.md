@@ -290,6 +290,69 @@ Cracking the Kotlin...! </br>
      - **var** ☞ list3에 새로 만든 리스트 newList를 재대입할 수 있음
      - += 연산자로 인해, list3가 가변 리스트인 것 같은 착각을 불러일으킨다.
 
+### 25. 가변 인자 목록 (vararg)
+
+- 가변 인자 목록 (variable argument list)
+  - 임의의 길이로(0 포함) 인자 목록을 받을 수 있는 함수
+    - ex) listOf(), vararg 등
+  - 함수 정의에 vararg 인자 '최대 하나만' 선언 가능
+  - vararg 인자의 '위치' ☞ 상관없음
+    - 다만, 일반적으로 '마지막' 파라미터를 vararg로 선언하는 게 간편함
+  - 모든 인자 ☞ 지정한 타입에 속해야 함
+  - '**Array**'로 취급된다.
+- Array(배열) VS. List(목록)
+  1) Array
+     - 특별한 저수준 지원 필요
+       - 다른 언어(ex. JAVA)와의 호환성을 고려해 생겨난 타입
+     - 용도 (제한적)
+       - 서브파티 API가 Array를 요구할 경우
+       - vararg를 다뤄야 하는 경우
+     - arrayOf()
+     - 항상 '가변' 객체이다.
+  2) List
+     - 일반적인 라이브러리 클래스
+     - 용도 (일반적)
+       - 일상적인 프로그램에서 간단한 시퀀스가 필요한 경우
+     - listOf()
+     - 가변(mutableList) 객체, 불변(List) 객체 모두 가능하다.
+  - 하지만, 대부분의 경우, vararg가 Array를 생성한다는 사실은 모르는 척 하고 List인 것처럼 취급할 수 있다.
+- 스프레드 연산자 (*)
+  - Array를, 'Array 타입의 인자 하나'가 아닌, '**인자 목록**'으로 변환한다.
+  - **Array**에만 적용 가능
+    - 만약 **List**를 인자 목록에 전달하고 싶을 경우
+      - ① List를 Array로 변환한다 (toArray()).
+        - (Array가 원시 타입일 경우) 원시 타입의 Array로 변환한다 (toIntArray()).
+      - ② 스프레드 연산자를 적용한다.
+  - **원시 타입의** Array인 경우
+    - 구체적인 타입 이름이 지정된 Array 생성 함수를 사용해야 한다.
+      - EX) IntArray, ByteArray, BooleanArray 등
+    - 원시 타입: Byte, Char, Short, Int, Long, Float, Double, Boolean
+      - String은 코틀린 기본 타입이지만, 원시 타입은 아니다.
+  - IntArray VS. Array<Int>
+    - IntArray: Int 원시 타입의 2진 표현 값을 직접 저장한다.
+    - Array<Int>: Int 객체에 대한 참조를 모아둔 배열
+      - 훨씬 더 메모리 많이 차지함
+      - 처리 속도가 늦음
+  - vararg로 받은 파라미터를 다시 다른 vararg를 요구하는 함수에 전달할 때 특히 유용하다.
+
+#### ▶︎ 명령줄 인자 (Command-Line Arguments)
+
+- Command Line에서 프로그램을 시작할 때 프로그램이 command-line arguments를 받게 하려면,
+  1. main() 함수에 미리 정해진 파라미터를 지정한다.
+     - 파라미터 이름: (전통적으로) args
+     - args의 타입: 반드시 Array\<String>이어야 한다.
+       - String 파라미터를 원하는 타입으로 바꾸고 싶다면 => 변환 함수
+         - EX) toInt(), toFloat()
+         - 명령줄 인자의 '순서' 고려
+     ```kotlin
+     fun main(args: Array<String>) {}
+     ```
+  2. 인텔리J IDEA의 'Run configuration'을 통해 프로그램에 인자를 전달한다.
+  3. kotlinc 컴파일러를 통해 Command Line 프로그램을 생성한다.
+        ```shell
+        kolinc MainArgs.kt
+        kotlin MainArgsKt hamster 42 3.14159
+        ```
 
 ## 3. Usability
 ## 4. Functional Programming
