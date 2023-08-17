@@ -358,14 +358,14 @@ Cracking the Kotlin...! </br>
 
 - 자동으로 중복을 없애고 '오직 하나'의 값만 남기는 컬렉션
 - 원소 순서는 중요하지 않다.
-- in, contains() ☞ 원소인지 여부 검사
+- `in`, `contains()` ☞ 원소인지 여부 검사
 - 일반적인 벤 다이어그램 연산
   - 점 표기법(set.union(other)) 또는 중위 표기법(set union other)
-    - 부분집합 ☞ containsAll()
-    - 합집합 ☞ union()
-    - 교집합 ☞ intersect()
-    - 차집합 ☞ subtract(), 뺄셈 연산자(-)
-- 원소의 추가/삭제 ☞ +=, -= 연산자
+    - 부분집합 ☞ `containsAll()`
+    - 합집합 ☞ `union()`
+    - 교집합 ☞ `intersect()`
+    - 차집합 ☞ `subtract()`, `뺄셈 연산자(-)`
+- 원소의 추가/삭제 ☞ `+=, -= 연산자`
 - List에서 중복을 제거하고 싶다면
   1) Set으로 변환한다.
   2) List를 반환하는 distinct() 함수를 사용한다.
@@ -373,9 +373,65 @@ Cracking the Kotlin...! </br>
   - toSet() 함수를 호출한다.
 - Set의 생성 함수 (2가지)
   - List와 마찬가지로
-  1) setOf() ☞ 읽기 전용 집합
-  2) mutableSetOf() ☞ 가변 집합
+  1) `setOf()` ☞ 읽기 전용 집합
+  2) `mutableSetOf()` ☞ 가변 집합
   
+### 27. 맵 (Map)
+
+- 연관 배열 (associative array)
+  - 키(key)와 값(value)을 연결한다. 
+    - 즉, 키가 주어지면 그 키와 연결된 값을 찾아준다.
+  - `mapOf()`, `to`
+    ```kotlin
+    val constants = mapOf(
+        "Pi" to 3.141,
+        "e" to 2.718,
+        "phi" to 1.618
+    )
+    constants eq "{Pi=3.141, e=2.718, phi=1.618}"
+    ``` 
+  - 간단하고 작은 데이터베이스와 비슷하다.
+- Map의 연산
+  - `[] 연산자` ☞ 키를 사용해 값을 검색함
+  - `맵.keys` ☞ 모든 키 조회
+    - 반환값: Set 타입
+    - Map에서 각 키는 유일하기 때문이다.
+  - `맵.values` ☞ 모든 값 조회
+  - `entry(맵 항목)` ☞ 키-값 쌍
+    ```kotlin
+    for (entry in constants) {
+      s += "${entry.key}=${entry.value}, "
+    }
+    ```
+  - 키-값 분리
+    ```kotlin
+    for ((key, value) in constants) {
+        s += "${key}=${value}, "
+    }
+    ```
+  - `map[key] = value` ☞ key와 연관된 value의 추가 및 변경
+  - `map += key to value` ☞ 키-값 쌍의 명시적인 추가
+  - `+ 연산` ☞ 기존 맵의 원소와 더해진 원소를 포함하는 새 Map의 생성
+    - 원래의 Map에는 영향 미치지 않음
+    - 읽기 전용의 Map에 원소를 추가하고 싶다면, 새로운 Map을 만드는 수밖에 없다.
+- `mapOf()` VS. `mutableMapOf()`
+  - 원소가 Map에 전달된 순서가 유지된다.
+    - 단, 다른 Map 타입에 대해서는 이를 보장하지 않는다.
+  1) mapOf(): 읽기 전용 맵
+  2) mutableMapOf(): 가변 맵
+- Map에 주어진 키에 해당하는 원소가 존재하지 않는다면
+  1) <기본> null을 반환한다.
+  2) getValue() 함수
+     - 항상 null이 아닌 값을 반환한다.
+     - NoSuchElementException을 던진다.
+  3) getOrDefault() 함수
+     - 가장 나은 대안
+     ```kotlin
+     val map = mapOf('a' to "attempt")
+     map.getOrDefault('a', "디폴트값") eq "attempt"
+     map.getOrDefault('c', "디폴트값") eq "디폴트값"
+     ```
+- Map의 키와 값으로 '클래스 인스턴스'를 설정할 수 있다.
 
 ## 3. Usability
 ## 4. Functional Programming
