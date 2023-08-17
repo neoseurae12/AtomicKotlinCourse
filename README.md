@@ -354,6 +354,29 @@ Cracking the Kotlin...! </br>
         kotlin MainArgsKt hamster 42 3.14159
         ```
 
+### 26. 집합 (Set)
+
+- 자동으로 중복을 없애고 '오직 하나'의 값만 남기는 컬렉션
+- 원소 순서는 중요하지 않다.
+- in, contains() ☞ 원소인지 여부 검사
+- 일반적인 벤 다이어그램 연산
+  - 점 표기법(set.union(other)) 또는 중위 표기법(set union other)
+    - 부분집합 ☞ containsAll()
+    - 합집합 ☞ union()
+    - 교집합 ☞ intersect()
+    - 차집합 ☞ subtract(), 뺄셈 연산자(-)
+- 원소의 추가/삭제 ☞ +=, -= 연산자
+- List에서 중복을 제거하고 싶다면
+  1) Set으로 변환한다.
+  2) List를 반환하는 distinct() 함수를 사용한다.
+- String에 들어 있는 유일한 문자들의 집합을 얻고 싶다면
+  - toSet() 함수를 호출한다.
+- Set의 생성 함수 (2가지)
+  - List와 마찬가지로
+  1) setOf() ☞ 읽기 전용 집합
+  2) mutableSetOf() ☞ 가변 집합
+  
+
 ## 3. Usability
 ## 4. Functional Programming
 ## 5. Object-Oriented Programming
