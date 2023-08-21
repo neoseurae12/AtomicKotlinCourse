@@ -107,21 +107,53 @@ Cracking the Kotlin...! </br>
 
 ### 19. 생성자
 
-- 생성자 ☞ 객체를 제대로 초기화할 수 있는 메커니즘
+- 생성자 ☞ 객체를 제대로 초기화 및 생성할 수 있는 메커니즘
   - 새 객체를 초기화하는 특별한 멤버 함수와 비슷하다.
   - 정보를 전달해 (by '파라미터 목록') 새 객체를 초기화할 수 있다.
+  - 생성자 호출 VS. 함수 호출
+    - 생성자 호출: 첫 글자가 '대문자'
+    - 함수 호출: 첫 글자가 '소문자'
   - new 키워드를 '불필요한 중복'으로 보기 때문에 사용하지 않는다.
 - 파라미터 목록
-  1) `인자` ☞ 생성자 밖에서는 접근 불가
-    ```kotlin
-    class Alien(name: String)   // 인자
-    ```
-  2) `프로퍼티` ☞ 생성자 밖에서도 접근 가능
-    ```kotlin
-    class MutableNameAlien(var name: String)   // 프로퍼티 (with 'val/var')
-    class FixedNameAlien(val name: String)
-    ```
-  - 파라미터가 많아도 OK
+  1) `인자`
+     - 생성자 밖에서는 접근 불가
+     ```kotlin
+     class Alien(name: String) { // 인자
+         //name = "Mark" // 불가능
+         var id = name
+         //id = "Mark"   // 불가능 (∵ 클래스 안에는 only 프로퍼티 & 멤버 함수)
+         
+         override fun toString(): String {
+             return "Alien: $id"        // 가능
+             //return "Alien: $name"    // 불가능
+         }
+     }
+    
+     fun main() {
+         val alien1 = Alien("Jason")
+         //alien1.name       // 불가능
+         alien1.id = "Jack"  // 가능
+     }
+     ```
+  2) `프로퍼티`
+     - 생성자 밖에서도 접근 가능
+     - 새로운 이름을 명시적으로 선언하고 싶지 않을 때
+     ```kotlin
+     class MutableNameAlien(var name: String)   // 프로퍼티 (with 'val/var')
+     class FixedNameAlien(val name: String, var years: Int) {   // 파라미터 여러 개일 경우 (1)
+         //val id = name     // 불필요
+     }
+     class MultiParaAlien(  // 파라미터 여러 개일 경우 (2)
+        val name: String,
+        var years: Int
+     )
+    
+     fun main() { 
+         val alien1 = MutableNameAlien("Jason")
+         alien1.name = "Jack"    // 가능
+     }
+     ```
+     - 파라미터가 많아도 OK
 - `println(객체)`
   - `객체.toString()`을 호출한 결과를 출력한다.
   1) 클래스에 직접 toString을 정의한 바 없다면
@@ -147,8 +179,9 @@ Cracking the Kotlin...! </br>
        - 장점
          - 코드의 의도를 더 명확히 할 수 있고,
          - 의도치 않게 같은 이름의 함수를 정의하는 등의 실수를 줄일 수 있으며,
-         - 프로그램 오류를 찾고 수정할 때 유용하다 (디버깅)
-           - cf) IDE의 '디버거(debugger)' 기능
+     - toString() 함수에 대한 override
+       - 프로그램 오류를 찾고 수정할 때 유용하다 (디버깅)
+       - cf) IDE의 '디버거(debugger)' 기능
 
 
 ### 20. 가시성 제한하기
