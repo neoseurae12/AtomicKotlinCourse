@@ -105,7 +105,51 @@ Cracking the Kotlin...! </br>
 
 ### 18.
 
-### 19.
+### 19. 생성자
+
+- 생성자 ☞ 객체를 제대로 초기화할 수 있는 메커니즘
+  - 새 객체를 초기화하는 특별한 멤버 함수와 비슷하다.
+  - 정보를 전달해 (by '파라미터 목록') 새 객체를 초기화할 수 있다.
+  - new 키워드를 '불필요한 중복'으로 보기 때문에 사용하지 않는다.
+- 파라미터 목록
+  1) `인자` ☞ 생성자 밖에서는 접근 불가
+    ```kotlin
+    class Alien(name: String)   // 인자
+    ```
+  2) `프로퍼티` ☞ 생성자 밖에서도 접근 가능
+    ```kotlin
+    class MutableNameAlien(var name: String)   // 프로퍼티 (with 'val/var')
+    class FixedNameAlien(val name: String)
+    ```
+  - 파라미터가 많아도 OK
+- `println(객체)`
+  - `객체.toString()`을 호출한 결과를 출력한다.
+  1) 클래스에 직접 toString을 정의한 바 없다면
+     - 디폴트 toString()이 호출된다.
+     ```kotlin
+     val krombopulos = AlienSpecies()
+     println(krombopulos)
+    
+     /** 출력결과
+     AlienSpecies@4d7e1886  // 그다지 유용하지 않은 출력..
+     */
+     ```
+  2) 클래스에 직접 toString()을 구현하고자 한다면
+      ```kotlin
+      class Scientist(val name: String) {
+        override fun toString(): String {
+          return "Scientist('$name')"
+        }
+      }
+      ```
+     - `override` 키워드
+       - 이미 정의되어있는 메서드의 정의를 대신할 진짜 새 정의를 제공하곘다는 뜻
+       - 장점
+         - 코드의 의도를 더 명확히 할 수 있고,
+         - 의도치 않게 같은 이름의 함수를 정의하는 등의 실수를 줄일 수 있으며,
+         - 프로그램 오류를 찾고 수정할 때 유용하다 (디버깅)
+           - cf) IDE의 '디버거(debugger)' 기능
+
 
 ### 20. 가시성 제한하기
 
