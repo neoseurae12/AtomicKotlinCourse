@@ -392,6 +392,15 @@ Cracking the Kotlin...! </br>
   5. 좀 더 자세한 오류 메세지가 포함된 구체적인 예외를 던진다.
      - `throw` 키워드
      - 목표: 향후 애플리케이션을 더 쉽게 지원할 수 있도록 가장 유용한 메세지를 제공하는 것
+     ```kotlin
+     if (a == 0.0)
+         throw IllegalArgumentException(
+             "a is zero")
+     val underRadical = b * b - 4 * a * c
+     if (underRadical < 0)
+         throw IllegalArgumentException(
+             "Negative underRadical: $underRadical")
+     ```
 
 ### 24. 리스트
 
