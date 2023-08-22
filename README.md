@@ -404,39 +404,43 @@ Cracking the Kotlin...! </br>
 
 ### 24. 리스트
 
-- 컨테이너(container) (=컬렉션(collection))
-: 다른 객체를 담는 개체
-
 - 리스트
+  - 코틀린의 기본적인 순차적 컨테이너 타입
+    - `컨테이너(container)` (=`컬렉션(collection)`): 다른 객체를 담는 객체
   - ⊂ 표준 코틀린 패키지
     - import 할 필요 없음
   - listOf() 함수
     - ⊂ 표준 라이브러리 함수
 
 - 인덱스
-  - in 키워드 ☞ 1 차이로 인한(off-by-one) 오류를 없앨 수 있다.
+  - `in 키워드` ☞ 1 차이로 인한(off-by-one) 오류를 없앨 수 있다.
     - in 키워드: 컨테이너 전체에 대한 이터레이션
-    - 1 차이로 인한(off-by-one) 오류: 인덱스가 '0'부터 시작하다는 사실을 깜빡했을 경우 발생
-      - ArrayIndexOutOfBoundException: 수 발생
-  - for(i in ints)에서의 i => val i라고 정의하거나 i의 타입을 지정할 필요 없음
+    - `1 차이로 인한(off-by-one) 오류`: 인덱스가 '0'부터 시작하다는 사실을 깜빡했을 경우 발생
+      - `ArrayIndexOutOfBoundException`: List의 마지막 원소의 인덱스보다 더 큰 인덱스를 사용한 경우 발생
+  - `for(i in ints)`에서의 `i` => val i라고 정의하거나 i의 타입을 지정할 필요 없음
     - 이유: 코틀린이 문맥을 보고 i가 for 루프에 쓰일 식별자라는 사실을 알 수 있기 때문이다.
 
 - List 연산 (일부)
   - `sorted()`, `reversed()`: '새로운' List를 생성하여 돌려준다. 따라서 List의 원본은 그대로 잘 남아있다.
-  - `sort()`: List의 원본을 직접(in place) 바꾼다.
+  - `sort()`: List의 원본을 '직접 제자리에서(in place)' 정렬하여 바꾸기 때문에, MutableList에 대해서만 작동한다.
   - `first()`: 맨 첫 원소
-  - `takeLast(n)`: 맨 뒤에서 n개의 원소
+  - `take(n)`: 리스트의 맨 앞에 있는 n개의 원소가 포함된 새 List를 만든다.
+  - `takeLast(n)`: 리스트의 맨 뒤에서 n개의 원소가 포함된 새 List를 만든다.
   - `sum()`: 모든 원소의 합
+  - `slice()`: 인자로 전달된 Range에 속하는 인덱스와 일치하는 위치의 원소로 이뤄진 새 List를 만든다.
+    - Range에 step 포함 가능
+  - `distinct()`: 리스트 내 중복을 제거한다.
 
 #### a. 파라미터화한 타입
 
-- 타입 파라미터(type parameter)
-: 이 컨테이너는 '파라미터' 타입의 객체를 담는다.
+- `타입 파라미터(type parameter)`
+: 이 컨테이너는 '파라미터' 타입에 해당하는 객체를 담는다.
 
-  - 홑화살괄호(<>)
+  - 홑화살괄호(`<>`)
+  - '컨테이너'의 타입 파라미터 ☞ 컨테이너에 담을 원소의 타입을 지정한다.
   - '함수의 반환 타입'일 경우, 타입을 명시하려면, 반드시 타입 파라미터까지 모두 명시해야 한다.
     - 즉, 타입 추론을 하든, 타입 명시를 하든, 모두 가능하다.
-    - 다만, 타입 명시일 경우에는, 단순히 List라고만 쓰면 안 된다. List<E>로 명시해야 한다.
+    - 다만, 타입 명시일 경우에는, 단순히 `List`라고만 쓰면 안 된다. `List<E>`로 명시해야 한다.
   - ↔ 타입 추론
     ```kotlin
     // 타입 추론
@@ -449,17 +453,17 @@ Cracking the Kotlin...! </br>
 #### b. listOf() & mutableListOf()
 
 - MutableList과 List 간의 변환 가능 여부
-  1) MutableList ⇒ List
-  2) List ⇏ MutableList
+  1) MutableList ⇒ List (가능)
+  2) List ⇏ MutableList (불가능)
 - 에일리어싱(aliasing)
   - 내부 구현을 MutableList로 하면서 이 MutableList에 대한 참조를 유지했다가 나중에 이 가변 List에 대한 참조를 통해 원소를 변경하면, 읽기 전용 리스트에 대한 참조임에도 불구하고 그 리스트 내부가 바뀐 모습을 볼 수 있다.
 
-1) listOf(): '**읽기 전용**' 리스트
-  - 상태 변화의 함수가 들어 있지 않다.
-2) mutableListOf(): '**가변**' 리스트
-  - 상태 변화의 함수가 들어 있다.
-    - add(), addAll()
-    - += 연산
+1) `listOf()`: '**읽기 전용**' 리스트
+   - **상태 변화의 함수**가 들어 있지 **않다**.
+2) `mutableListOf()`: '**가변**' 리스트
+   - 상태 변화의 함수가 **들어 있다**.
+     - add(), addAll()
+     - +=, -= 연산
 
 #### c. += 연산자
 
@@ -468,33 +472,33 @@ Cracking the Kotlin...! </br>
 
 - += 연산에 대한, val/var & 가변/불변 List의 다양한 조합
   1) **val/var** & **가변 List**
-     - 다음과 동일하다
-       ```kotlin
-       val list1 = mutableListOf<Char>()
-       // 또는
-       // var list1 = mutableListOf<Char>()
+      ```kotlin
+      val list1 = mutableListOf<Char>()
+      // 또는
+      // var list1 = mutableListOf<Char>()
        
-       list1.plusAssign('A')
-       ```
-     - list1에 다른 리스트가 재대입되지 않고 제자리에서 변경하기 때문에, val이든 var이든 상관 없음
+      list1 += 'A' // 아래와 동일하다
+      list1.plusAssign('A')
+      ```
+     - list1에 다른 리스트가 재대입되지 않고 **제자리에서 변경**하기 때문에, val이든 var이든 상관 없음
      - var보다는 **val**로 바꾸는 편이 더 나음
   2) **val** & **불변 List**
-     - 다음과 동일하다
-       ```kotlin
-       val list2 = List<Char>()
-       
-       list2 = list2 + 'B'
-       ```
+     ```kotlin
+     val list2 = List<Char>()
+     
+     //list2 += 'B'   // 아래와 동일하다
+     //list2 = list2 + 'B'  // 따라서 불가능
+     ```
      - **val** ☞ list2에 새로 만든 리스트를 재대입할 수 없음
      - 따라서, += 연산이 불가능하다(컴파일될 수 없다).
   3) **var** & **불변 List**
-     - 다음과 동일하다
-       ```kotlin
-       var list3 = List<Char>()
-       
-       val newList = list3 + 'C'
-       list3 = newList
-       ```
+     ```kotlin
+     var list3 = List<Char>()
+     
+     list3 += 'C'   // 아래와 동일하다
+     val newList = list3 + 'C'
+     list3 = newList
+     ```
      - list3가 가리키는 listOf('C')는 변경하지 않고, newList를 생성함
      - **var** ☞ list3에 새로 만든 리스트 newList를 재대입할 수 있음
      - += 연산자로 인해, list3가 가변 리스트인 것 같은 착각을 불러일으킨다.
@@ -576,10 +580,10 @@ Cracking the Kotlin...! </br>
     - 차집합 ☞ `subtract()`, `뺄셈 연산자(-)`
 - 원소의 추가/삭제 ☞ `+=, -= 연산자`
 - List에서 중복을 제거하고 싶다면
-  1) Set으로 변환한다.
-  2) List를 반환하는 distinct() 함수를 사용한다.
+  1) Set으로 변환하는 `toSet()` 함수를 사용한다.
+  2) List를 반환하는 `distinct()` 함수를 사용한다.
 - String에 들어 있는 유일한 문자들의 집합을 얻고 싶다면
-  - toSet() 함수를 호출한다.
+  - `toSet()` 함수를 호출한다.
 - Set의 생성 함수 (2가지)
   - List와 마찬가지로
   1) `setOf()` ☞ 읽기 전용 집합
