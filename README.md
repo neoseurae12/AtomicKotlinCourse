@@ -640,7 +640,7 @@ Cracking the Kotlin...! </br>
     - 단, 다른 Map 타입에 대해서는 이를 보장하지 않는다.
   1) mapOf(): 읽기 전용 맵
   2) mutableMapOf(): 가변 맵
-    - mutable을 변경하는 연산: remove(), clear() 등
+     - mutable을 변경하는 연산: remove(), clear() 등
 - Map에 주어진 키에 해당하는 원소가 존재하지 않는다면
   1) <기본> null을 반환한다.
   2) getValue() 함수
