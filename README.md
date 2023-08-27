@@ -749,6 +749,86 @@ Cracking the Kotlin...! </br>
   - 해당 객체에 대한 **멤버 함수** 또는 **확장**에 접근할 수 있다.
   - 클래스 내부 또는 확장 함수 내부에서 **생략 가능**
 
+### 31. 이름 붙은 인자 & 디폴트 인자
+
+- 이름 붙은 인자
+  - 장점: **코드 가독성이 좋아짐**
+    - 인자 이름을 붙였을 때 가독성이 향상되는 경우에만 인자 이름을 지정해라.
+      - 특히나 인자 목록 긴 경우
+    - 해당 함수에 대한 문서를 살펴보지 않고도 코드를 이해할 정도로 코드가 명확해질 수 있음
+  - 이름을 부분적으로 붙여도 OK
+  - 순서 변경 가능
+    - 단, 인자 순서 변경 시에는, 인자 목록의 나머지 부분에도 이름 붙여야 함
+    - 이유: 가독성뿐만 아니라, 컴파일러가 인자 목록을 정확히 매치할 수 있도록 하기 위함
+- 디폴트 인자
+  - 파라미터의 디폴트 값을 함수 정의에서 지정하여, 함수 호출 시 값을 지정하지 않은 인자는 자동으로 디폴트 값으로 지정되도록 한다.
+  - 장점: 디폴트 값과 다른 인자만 지정하면 되기 때문에, 특히나 인자 목록이 긴 경우에 디폴트 인자는 생략하여 코드의 가독성을 높일 수 있다.
+  - EX1) `joinToString()`
+    - 역할: 이터레이션이 가능한 객체(List, Set, Range 등)의 내용을 String으로 합쳐준다.
+    - 인자: **separator**(구분자), **prefix**(접두사), **postfix**(접미사)
+    - 디폴트 인자: separator=",", prefix="", postfix=""
+    ```kotlin
+    val list = listOf(1, 2, 3,)
+    list.joinToString() eq "1, 2, 3"
+    list.joinToString(prefix = "(",
+      postfix = ")") eq "(1, 2, 3)"
+    list.joinToString(separator = ":") eq
+      "1:2:3"
+    ```
+  - EX2) List의 `toString()`
+    - 디폴트 인자: 각괄호 & 콤마(,) 구분자
+    ```kotlin
+    list.toString() eq "[1, 2, 3]"
+    ```
+  - EX3) `trimMargin()`
+    - 역할
+      - 소스 String의 각 줄 맨 앞에 있는 공백들 다음에 지정한 접두사 String까지를 잘라내서 문자열을 다듬어준다.
+      - 여러 줄 문자열의 첫 번째 줄과 마지막 줄 중에 공백으로만 이뤄진 줄을 제거한다.
+    - 인자: 각 줄의 시작 부분을 인식하기 위한 경계를 표현하는 **접두사 String**
+    - 디폴트 인자: |(파이프)
+    ```kotlin
+      val poem = """
+        |->Last night I saw upon the stair
+          |->A little man who wasn't there
+            |->He wasn't there again today
+    |->Oh, how I wish he'd go away."""
+      poem.trimMargin() eq
+    """->Last night I saw upon the stair
+    ->A little man who wasn't there
+    ->He wasn't there again today
+    ->Oh, how I wish he'd go away."""
+      poem.trimMargin(marginPrefix = "|->") eq
+    """Last night I saw upon the stair
+    A little man who wasn't there
+    He wasn't there again today
+    Oh, how I wish he'd go away."""
+    ```
+  1) 디폴트 인자로 '**객체 인스턴스**'를 전달하는 경우
+      ```kotlin
+      class DefaultArg
+  
+      val da = DefaultArg()
+  
+      fun g(d: DefaultArg = da) = println(d)  // 객체 인스턴스 (da)
+      ```
+      - 함수를 호출할 때마다 **'동일한'** 인스턴스가 반복해서 전달된다.
+  2) 디폴트 인자로 '**생성자 호출**' 또는 '**함수 호출**'을 사용하는 경우
+      ```kotlin
+      fun h(d: DefaultArg = DefaultArg())= println(d) // 생성자 호출 (DefaultArg())
+      ```
+      - 함수를 호출할 때마다 **'새로운(다른)'** 인스턴스가 생성되거나, 디폴트 인자에서 호출하는 함수가 호출된다.
+- 덧붙은 콤마 (trailing comma)
+  ```kotlin
+  fun color(
+    red: Int = 0,
+    green: Int = 0,
+    blue: Int = 0,  // trailing comma
+  ) = "($red, $green, $blue)"
+  ```
+  - 파라미터 값을 '여러 줄'에 걸쳐 쓰는 경우에 유용하다.
+  - 장점: 새로운 아이템의 추가, 또는, 아이템의 순서 변경이 간편해짐
+- 이름 붙은 인자, 디폴트 인자, 덧붙은 콤마 ☞ **함수**뿐만 아니라 **생성자**에도 사용 가능
+
 ## 4. Functional Programming
 ## 5. Object-Oriented Programming
 ## 6. Preventing Failure
