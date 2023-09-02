@@ -858,6 +858,39 @@ Cracking the Kotlin...! </br>
   - 단, 우선순위 (시그니처가 중복된다는 가정 하): 
     - **멤버 함수** >>> 확장 함수
 
+### 33. when 식
+
+- when 식 ☞ if 식보다 더 권장하는 방식
+  - 두세 가지 이상의 선택지(match)들 중 **비교 & 선택**하는 경우, if 식보다 좀 더 유연하고 우아한 해법이다.
+  ```kotlin
+  // when
+  when (choice) {
+    yes -> trace("Hooray!")
+    no -> trace("Too bad!")
+  }
+  
+  // if
+  if (choice == yes) trace("Hooray!")
+  else if (choice == no) trace("Too bad!")
+  ```
+- when 식의 실행 종료시점: **가장 먼저 일치하는 매치식**에서 종료
+- `else`
+  - 항상 when 식의 매치 목록 중 맨 마지막에 else가 있어야 한다.
+  - else 가지를 없애면 컴파일 타입 오류가 발생한다.
+    - `'when' expression must be exhaustive, add necessary 'else' branch`
+    - when이 모든 가능한 경우를 처리해야 하므로 else 가지를 추가하라는 뜻
+  - 단, when 식을 **문**처럼 취급하는 경우 ☞ else 가지 생략 가능
+    - 이 경우, 매치와 일치하지 않으면, 아무 일도 일어나지 않고 when 문이 끝난다.
+- 콤마(`,`) ☞ 하나의 가지에 여러 값을 나열 가능
+- 블록 ☞ 화살표 오른쪽에 해당 가지에서 수행해야 할 **여러** 동작을 표현
+  - 블록: 중괄호로 여러 문장을 묶음
+- 빈 중괄호(`{}`) ☞ '아무 일도 하지 않음'을 표현
+- `return` ☞ when 문의 가지에서 자신을 둘러싼 함수를 반환 가능
+- when 식의 인자 ☞ 임의의 식
+  - 인자가 **없는** when 식 ☞ 각 매치 가지를 **Boolean 조건**에 따라 검사한다.
+- 매치 조건 (->의 왼쪽) ☞ 아무 값이나 가능 (상수가 꼭 아니어도 됨)
+
+
 ## 4. Functional Programming
 ## 5. Object-Oriented Programming
 ## 6. Preventing Failure
