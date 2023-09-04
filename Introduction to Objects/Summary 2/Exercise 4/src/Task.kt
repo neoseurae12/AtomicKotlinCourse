@@ -3,7 +3,7 @@ package summaryIIExercise4
 import atomictest.capture
 import atomictest.eq
 
-// 너무 좋은 코드2...
+// 너무 좋은 코드2...은
 
 class Dictionary {
   private val _translations = mutableMapOf<String, List<String>>()
