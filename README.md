@@ -890,6 +890,57 @@ Cracking the Kotlin...! </br>
   - 인자가 **없는** when 식 ☞ 각 매치 가지를 **Boolean 조건**에 따라 검사한다.
 - 매치 조건 (->의 왼쪽) ☞ 아무 값이나 가능 (상수가 꼭 아니어도 됨)
 
+### 34. 이넘 클래스 (enum class)
+
+- 코틀린 enum class ☞ **이름**을 **모아**두고 **관리**하는 편리한 방법
+  1. 이넘
+  2. 이넘 상수
+  ```kotlin
+  enum class Level {  // 이넘
+    Overflow, High, Medium, Low, Empty  // 이넘 상수
+  }
+  ```
+  - cf) enumeration ☞ 열거
+- `toString()` ☞ enum 생성 시 자동 생성 됨
+  - 역할: **enum의 이름**에 해당하는 문자열 반환
+- 이넘 클래스 ☞ 특별한 종류의 클래스
+  - 특별한 점
+    - **인스턴스 개수가 미리 정해져 있다.**
+    - **클래스 본문 안에 이 모든 인스턴스가 나열되어 있다.**
+  - 이를 제외하면 **'일반 클래스'와 똑같이 동작함**
+    - 생성자 ☞ 인스턴스에 따라 다른 값을 저장할 수 있음
+    - 세미콜론(`;`) ☞ 이넘 내에 **멤버 함수 & 멤버 프로퍼티** 정의 가능
+    - 게터 ☞ 동적으로 결과 계산 가능
+    ```kotlin
+    enum class Direction(val notation: String) {  // 생성자
+    North("N"), South("S"), East("E"), West("W"); // 세미콜론
+    val opposite: Direction // 멤버 프로퍼티 (또는 함수)
+      get() = when (this) { // 게터
+        North -> South
+        South -> North
+        East -> West
+        West -> East
+      }
+    }
+    ```
+- enum class의 장점: **코드 가독성**
+- enum class의 이름 한정
+  - 이넘 이름을 사용할 떄는 반드시 이름을 한정시켜야 한다.
+  - 단, `import`를 사용해 이넘에 정의된 모든 이름을 현재의 이름 공간으로 불러오면 **더 이상 이넘 이름을 한정시키지 않아도 된다.**
+    - cf) 이름 공간(namespace): 이름이 서로 겹치지 않도록 여러 이름을 서로 다른 공간에 분리한다.
+  - enum class가 정의된 파일에서 enum 값을 임포트할 수 있다.
+    - 이때 임포트는 이넘 정의가 들어 있는 파일에서 해당 이넘의 정의보다 **더 먼저** 작성되어야 한다.
+    1. `import enumerations.Level.*`
+       - Level 이넘의 모든 원소들을 임포트한다.
+       - 단, 이때 Level이라는 이름 자체는 임포트하지 않는다.
+    2. `import enumerations.Level`
+        - Level이라는 이름을 임포트한다.
+- `values()` ☞ 이넘의 값에 대해 이터레이션 가능
+  - 반환 타입: Array
+- `ordinal` ☞ 이넘 상수의 순서 (시작: 0~)
+- when 식 ☞ enum 항목마다 서로 다른 동작을 수행하도록 가능
+  - enum class에서는 when 식에서 **else 가지 생략 가능**
+    - ∵ enum class ☞ 인스턴스 개수가 미리 정해져 있음
 
 ## 4. Functional Programming
 ## 5. Object-Oriented Programming
