@@ -952,11 +952,57 @@ Cracking the Kotlin...! </br>
   - 여러 가지 공통 작업을 편하게 수행 가능하다.
 - data 키워드 ☞ 클래스에 몇 가지 기능을 추가하도록 코틀린에게 지시한다.
 - data 클래스의 기능
-  1. toString() 함수
-  2. equals() 함수
-  3. copy() 함수
-  4. hashCode() 함수 (=해시 함수)
-
+  1. `toString()` 함수
+     - '일반 클래스'에 의한 문자열과 'data 클래스'에 의한 문자열이 다르게 출력된다.
+       - 일반 클래스 ☞ **객체의 정보**를 출력할 뿐이다.
+       - data 클래스 ☞ toString() 코드를 추가로 작성하지 않아도, 객체를 더 읽기 쉽고 보기 좋도록, **파라미터 이름 & 객체에 담긴 데이터 내용**을 표현해준다.
+     1. **일반 클래스**의 경우
+         ```kotlin
+         package dataclasses
+        
+         class Person(val name: String)
+         
+         fun main() {
+           val person = Person("Cleo")
+           println(person)
+         }
+         
+         /** 출력 결과
+         dataclasses.Person@54bedef2  // 객체의 정보
+         */
+         ```
+     2. **data 클래스**의 경우
+         ```kotlin
+         data class Contact(
+           val name: String,
+           val number: String
+         )
+         
+         fun main() {
+           val contact = Contact("Miffy", "1-234-56789")
+           println(contact)
+         }
+         
+         /** 출력 결과
+         Contact(name=Miffy, number=1-234-56789)  // 파라미터 이름 & 객체에 담긴 데이터 내용
+         */
+         ```
+  2. `equals()` 함수
+     - **모든 프로퍼티의 값이 같은** 클래스 인스턴스 2개에 대해 '**동등(==)**'하다고 반환하도록 하는 동작의 구현이, 일반 클래스의 경우와 data 클래스의 경우가 다르다.
+     1. 일반 클래스의 경우
+        - equals() 함수를 override하여 수동으로 해당 동작을 정의해야 한다.
+     2. data 클래스의 경우
+        - 생성자 파라미터에 열거된 모든 프로퍼티가 같은지 검사하는 식으로 equals() 함수가 자동으로 생성 및 구현된다.
+  3. `copy()` 함수
+     - 현재 객체의 모든 데이터를 포함하는 새 객체를 생성해준다.
+     - 새 객체를 생성할 때 **몇몇 값을 다르게** 지정할 수 있다.
+       - 변경하고 싶은 인자만 이름 붙은 인자로 지정하면 된다.
+       - ∵ 모든 인자에는 이미 각 프로퍼티의 현재 값이 디폴트 인자로 지정되어 있음 
+     - copy()의 파라미터 이름 ☞ 생성자 파라미터의 이름과 같다.
+  4. `hashCode()` 함수
+     - 객체를 HashMap 또는 HashSet의 키로 사용할 수 있는 '해시 함수'를 자동으로 생성해준다.
+       - HashMap 또는 HashSet ☞ hashCode()와 equals()를 사용해 객체로서의 키를 빠르게 검색한다.
+     - 장점: data 클래스를 통해, 올바른 hashCode를 직접 작성할 때의 까다로움과 실수를 피할 수 있다.
 
 ## 4. Functional Programming
 ## 5. Object-Oriented Programming
