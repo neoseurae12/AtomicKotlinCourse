@@ -942,6 +942,22 @@ Cracking the Kotlin...! </br>
   - enum class에서는 when 식에서 **else 가지 생략 가능**
     - ∵ enum class ☞ 인스턴스 개수가 미리 정해져 있음
 
+### 35. data 클래스
+
+- data 클래스 ☞ **데이터 저장**만 담당하는 클래스
+  - 모든 생성자 파라미터를 **var 또는 val**로 선언해야 한다.
+- 장점
+  - 반복적인 코딩을 줄여준다.
+  - 코드양을 줄인다.
+  - 여러 가지 공통 작업을 편하게 수행 가능하다.
+- data 키워드 ☞ 클래스에 몇 가지 기능을 추가하도록 코틀린에게 지시한다.
+- data 클래스의 기능
+  1. toString() 함수
+  2. equals() 함수
+  3. copy() 함수
+  4. hashCode() 함수 (=해시 함수)
+
+
 ## 4. Functional Programming
 ## 5. Object-Oriented Programming
 ## 6. Preventing Failure
