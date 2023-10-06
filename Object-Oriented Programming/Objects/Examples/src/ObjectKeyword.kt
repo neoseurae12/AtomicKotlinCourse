@@ -2,7 +2,7 @@
 package objects
 import atomictest.eq
 
-object JustOne {
+private object JustOne {
   val n = 2
   fun f() = n * 10
   fun g() = this.n * 20   // [1]
