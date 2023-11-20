@@ -1005,7 +1005,7 @@ Cracking the Kotlin...! </br>
        - HashMap 또는 HashSet ☞ hashCode()와 equals()를 사용해 객체로서의 키를 빠르게 검색한다.
      - 장점: data 클래스를 통해, 올바른 hashCode를 직접 작성할 때의 까다로움과 실수를 피할 수 있다.
 
-### 구조 분해 선언
+### 36. 구조 분해 선언
 
 - Pair 클래스 & Triple 클래스
   - 파라미터화된 타입
