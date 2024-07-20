@@ -24,4 +24,5 @@ fun main() {
   cs.count("abc") eq 2
   cs.count("def") eq 1
   cs.count("xyz") eq 0
+  cs.toSet() eq "[abc, def]"
 }
